@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Universo de Amor - Para Rebeca</title>
+    <style>
+        :root {
+            /* Paleta de colores "Universo de Amor" */
+            --space-deep: #0f0c29;
+            --space-mid: #302b63;
+            --space-light: #24243e;
+            --rose-main: #ff2a6d;
+            --rose-dark: #9c1844;
+            --rose-light: #ff6b9d;
+            --gold-glow: #ffd700;
+            --vase-glass: rgba(255, 255, 255, 0.1);
+            --vase-border: rgba(255, 255, 255, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(to bottom, var(--space-deep), var(--space-mid), var(--space-light));
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Playfair Display', 'Georgia', serif;
+            overflow: hidden;
+            position: relative;
+            color: white;
+        }
+
+        /* --- FONDO DEL UNIVERSO --- */
+        .universe-bg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            opacity: 0;
+            animation: twinkle var(--duration) infinite ease-in-out;
+        }
+
+        /* Estilos para los Planetas */
+        .planet {
+            position: absolute;
+            border-radius: 50%;
+            z-index: 1;
+            box-shadow: inset -10px -10px 20px rgba(0,0,0,0.5), 0 0 15px rgba(255,255,255,0.1);
+            animation: floatPlanet var(--float-duration) infinite ease-in-out alternate;
+        }
+        
+        /* Anillos del planeta */
+        .planet::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 160%;
+            height: 40%;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-top: none;
+            border-radius: 50%;
+            transform: translate(-50%, -50%) rotate(-20deg);
+            z-index: -1;
+        }
+
+        .nebula {
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(255, 42, 109, 0.15) 0%, transparent 70%);
+            filter: blur(60px);
+            border-radius: 50%;
+            z-index: 0;
+            animation: moveNebula 25s infinite alternate ease-in-out;
+        }
+
+        @keyframes twinkle {
+            0% { opacity: 0.2; transform: scale(0.8); }
+            50% { opacity: 1; transform: scale(1.2); }
+            100% { opacity: 0.2; transform: scale(0.8); }
+        }
+
+        @keyframes floatPlanet {
+            from { transform: translateY(0); }
+            to { transform: translateY(-20px); }
+        }
+
+        @keyframes moveNebula {
+            from { transform: translate(-10%, -10%) scale(1); }
+            to { transform: translate(10%, 10%) scale(1.1); }
+        }
+
+        /* --- TÍTULO --- */
+        .header {
+            position: absolute;
+            top: 4vh;
+            text-align: center;
+            z-index: 20;
+            animation: fadeInDown 2s ease-out;
+        }
+
+        .header h1 { 
+            font-size: 2.8rem; 
+            letter-spacing: 4px; 
+            font-weight: 400; 
+            background: linear-gradient(to right, #fff, var(--rose-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 20px rgba(255, 42, 109, 0.5);
+        }
+        
+        .header p { 
+            font-size: 1.1rem; 
+            color: #dcdcdc; 
+            margin-top: 10px; 
+            font-style: italic; 
+            letter-spacing: 1px;
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- ESCENA DE LA ROSA (Florero y Tallo) --- */
+        .scene-container {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+            height: 70vh;
+            width: 100%;
+            z-index: 10;
+        }
+
+        /* La Rosa (Cabeza) */
+        .rose-head-wrapper {
+            position: relative;
+            z-index: 15;
+            margin-bottom: -20px; /* Conectar con el tallo */
+            filter: drop-shadow(0 0 15px rgba(255, 42, 109, 0.4));
+        }
+
+        .rose-head {
+            position: relative;
+            width: 280px;
+            height: 280px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .rose-center {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            background: radial-gradient(circle at 30% 30%, #fff, #ffd700, #ff8f00);
+            border-radius: 50%;
+            box-shadow: 0 0 20px #ffd700;
+            z-index: 25;
+            animation: heartbeat 2s infinite ease-in-out;
+        }
+
+        .petal {
+            position: absolute;
+            width: 80px;
+            height: 130px;
+            background: linear-gradient(135deg, var(--rose-main) 0%, var(--rose-dark) 100%);
+            border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%;
+            transform-origin: center bottom;
+            cursor: pointer;
+            z-index: 11;
+            bottom: 50%;
+            box-shadow: inset 3px 3px 10px rgba(255, 255, 255, 0.2), 0 5px 10px rgba(0,0,0,0.3);
+            transition: all 0.3s;
+        }
+
+        .petal:hover { 
+            filter: brightness(1.4) drop-shadow(0 0 10px var(--rose-light)); 
+            transform: scale(1.05) rotate(var(--rot));
+        }
+
+        /* El Tallo */
+        .stem {
+            width: 6px;
+            height: 180px;
+            background: linear-gradient(to right, #051a05, #1d4d1d, #051a05);
+            border-radius: 10px;
+            position: relative;
+            z-index: 5;
+            transform-origin: top center;
+            transform: scaleY(1);
+        }
+
+        /* Hojas del tallo */
+        .stem::before, .stem::after {
+            content: '';
+            position: absolute;
+            background: linear-gradient(135deg, #2e8b57, #1a4d2e);
+            width: 30px;
+            height: 15px;
+            border-radius: 0 50% 0 50%;
+            box-shadow: inset 1px 1px 2px rgba(0,0,0,0.3);
+        }
+        .stem::before { top: 40%; left: -24px; transform: rotate(-10deg); }
+        .stem::after { top: 60%; right: -24px; transform: rotate(190deg) scaleX(-1); }
+
+        /* El Florero de Cristal */
+        .vase {
+            position: relative;
+            width: 100px;
+            height: 140px;
+            margin-top: -20px;
+            background: linear-gradient(135deg, var(--vase-glass), rgba(255,255,255,0.05));
+            border: 2px solid var(--vase-border);
+            border-top: none;
+            border-radius: 10px 10px 40px 40px;
+            z-index: 20;
+            box-shadow: 0 0 20px rgba(255,255,255,0.1), inset 0 0 20px rgba(255,255,255,0.1);
+            overflow: hidden;
+        }
+
+        /* El agua mágica dentro del florero */
+        .water {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 40%;
+            background: linear-gradient(to top, rgba(0, 191, 255, 0.3), rgba(138, 43, 226, 0.1));
+            border-top: 1px solid rgba(255,255,255,0.2);
+            animation: waterMove 3s infinite ease-in-out;
+            box-shadow: 0 0 15px rgba(0, 191, 255, 0.3);
+        }
+
+        /* Brillo en el cristal */
+        .vase::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 10px;
+            width: 10px;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(255,255,255,0.4), transparent);
+            filter: blur(2px);
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes waterMove {
+            0%, 100% { height: 40%; }
+            50% { height: 42%; }
+        }
+
+        /* --- EFECTOS DE INTERACCIÓN --- */
+        .comet-petal {
+            position: fixed;
+            pointer-events: none;
+            z-index: 100;
+            mix-blend-mode: screen;
+            animation: flyToUniverse 2.2s forwards cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        @keyframes flyToUniverse {
+            0% { 
+                transform: translate(0, 0) scale(1) rotate(var(--init-rot)); 
+                opacity: 1; 
+            }
+            100% { 
+                transform: translate(var(--target-x), var(--target-y)) scale(0.1) rotate(360deg); 
+                opacity: 0; 
+            }
+        }
+
+        .message-bubble {
+            position: fixed;
+            color: #fff;
+            font-family: 'Arial', sans-serif;
+            font-weight: bold;
+            font-size: 1.4rem;
+            text-shadow: 0 0 10px var(--rose-main), 0 0 20px #fff;
+            white-space: nowrap;
+            z-index: 200;
+            pointer-events: none;
+            animation: msgPop 2.8s forwards;
+        }
+
+        @keyframes msgPop {
+            0% { transform: scale(0) translateY(0); opacity: 0; }
+            15% { transform: scale(1.2) translateY(-10px); opacity: 1; }
+            100% { transform: translateY(-100px) scale(0.9); opacity: 0; }
+        }
+
+        /* --- MENSAJE FINAL (DEDICATORIA) --- */
+        .final-dedication {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.5);
+            text-align: center;
+            opacity: 0;
+            z-index: 300;
+            pointer-events: none; /* Permite hacer clic a través del texto */
+            transition: all 2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            width: 100%;
+        }
+
+        .final-dedication.visible {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .final-dedication h2 {
+            font-size: 3.5rem;
+            color: #fff;
+            margin-bottom: 15px;
+            background: linear-gradient(to bottom, #fff, var(--rose-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 15px var(--rose-main));
+            font-family: 'Great Vibes', cursive; /* Fuente cursiva elegante si está disponible */
+            font-family: 'Playfair Display', serif;
+        }
+
+        .final-dedication p {
+            font-size: 1.8rem;
+            color: var(--gold-glow);
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+        }
+
+        /* --- BOTÓN RESET --- */
+        .reset-btn {
+            position: absolute;
+            bottom: 30px;
+            padding: 12px 35px;
+            background: linear-gradient(45deg, var(--rose-dark), var(--rose-main));
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(255, 42, 109, 0.4);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease;
+            font-weight: bold;
+            z-index: 400; /* Z-index superior para que sea clickeable */
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+        }
+
+        .reset-btn.visible { opacity: 1; transform: translateY(0); }
+        .reset-btn:hover { 
+            transform: translateY(-3px); 
+            box-shadow: 0 8px 25px rgba(255, 42, 109, 0.6);
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- FONDO UNIVERSAL -->
+    <div class="universe-bg" id="universe">
+        <div class="nebula" style="top: -10%; left: -10%;"></div>
+        <div class="nebula" style="bottom: -10%; right: -10%; background: radial-gradient(circle, rgba(0, 191, 255, 0.1) 0%, transparent 70%);"></div>
+        <!-- Las estrellas y planetas se generan con JS -->
+    </div>
+
+    <div class="header">
+        <h1>Nuestro Universo</h1>
+        <p>Toca la rosa para enviar un deseo a las estrellas</p>
+    </div>
+
+    <!-- MENSAJE FINAL OCULTO INICIALMENTE -->
+    <div class="final-dedication" id="finalDedication">
+        <h2>Te Amo</h2>
+        <p>- Eres mi todo -</p>
+    </div>
+
+    <!-- ESCENA PRINCIPAL -->
+    <div class="scene-container">
+        
+        <!-- Cabeza de la Rosa -->
+        <div class="rose-head-wrapper">
+            <div class="rose-head" id="roseHead">
+                <div class="rose-center"></div>
+            </div>
+        </div>
+
+        <!-- Tallo -->
+        <div class="stem"></div>
+
+        <!-- Florero -->
+        <div class="vase">
+            <div class="water"></div>
+        </div>
+
+    </div>
+
+    <button class="reset-btn" id="resetBtn">Regalar Otra Rosa 🌹</button>
+
+    <script>
+        const config = {
+            totalPetals: 14, 
+            messages: [
+                "Eres mi universo", "Te amo infinitamente", "Mi alma gemela", 
+                "Bajo tus estrellas", "Pasión eterna", "Mi refugio", 
+                "Eres luz", "Latidos cósmicos", "Para siempre", 
+                "Dueña de mi ser", "Magia pura", "Nuestra historia", 
+                "Amor profundo", "Destino unido"
+            ],
+            planetColors: [
+                "linear-gradient(135deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%)", // Rosa pastel
+                "linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%)", // Lila
+                "linear-gradient(135deg, #ff0844 0%, #ffb199 100%)", // Rojo fuego
+                "linear-gradient(135deg, #30cfd0 0%, #330867 100%)", // Azul profundo
+                "linear-gradient(135deg, #fddb92 0%, #d1fdff 100%)"  // Dorado
+            ]
+        };
+
+        const roseHead = document.getElementById('roseHead');
+        const resetBtn = document.getElementById('resetBtn');
+        const universe = document.getElementById('universe');
+        const finalDedication = document.getElementById('finalDedication');
+
+        // 1. GENERAR EL UNIVERSO (Estrellas y Planetas)
+        function createUniverse() {
+            // Estrellas
+            for (let i = 0; i < 200; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                const size = Math.random() * 2 + 1 + 'px';
+                star.style.width = size;
+                star.style.height = size;
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.setProperty('--duration', (Math.random() * 3 + 1) + 's');
+                star.style.animationDelay = (Math.random() * 2) + 's';
+                universe.appendChild(star);
+            }
+
+            // Planetas de diferentes tamaños
+            const planetCount = 6;
+            for (let i = 0; i < planetCount; i++) {
+                const planet = document.createElement('div');
+                planet.className = 'planet';
+                
+                const size = Math.random() * 80 + 30; 
+                planet.style.width = size + 'px';
+                planet.style.height = size + 'px';
+                
+                let posX = Math.random() * 100;
+                let posY = Math.random() * 100;
+                
+                if (posX > 30 && posX < 70 && posY > 20 && posY < 80) {
+                    posX += 30; 
+                }
+
+                planet.style.left = posX + '%';
+                planet.style.top = posY + '%';
+                
+                planet.style.background = config.planetColors[Math.floor(Math.random() * config.planetColors.length)];
+                
+                planet.style.setProperty('--float-duration', (Math.random() * 10 + 10) + 's');
+                
+                if (Math.random() > 0.6) {
+                    planet.style.border = '2px solid rgba(255,255,255,0.2)';
+                    const ringColor = Math.random() > 0.5 ? 'rgba(255,255,255,0.4)' : 'rgba(255, 215, 0, 0.4)';
+                    const styleSheet = document.createElement("style");
+                    styleSheet.innerText = `.planet:nth-child(${i+3})::after { border-color: ${ringColor}; }`;
+                    document.head.appendChild(styleSheet);
+                }
+
+                universe.appendChild(planet);
+            }
+        }
+
+        // 2. CREAR LA ROSA INTERACTIVA
+        function createRose() {
+            const heart = roseHead.querySelector('.rose-center');
+            roseHead.innerHTML = ''; // Limpiar pétalos viejos
+            roseHead.appendChild(heart);
+            
+            let fallenCount = 0;
+            resetBtn.classList.remove('visible');
+            finalDedication.classList.remove('visible'); // Ocultar mensaje final al reiniciar
+
+            const angleStep = 360 / config.totalPetals;
+
+            for (let i = 0; i < config.totalPetals; i++) {
+                const petal = document.createElement('div');
+                petal.classList.add('petal');
+                
+                const rotation = i * angleStep;
+                petal.style.transform = `rotate(${rotation}deg)`;
+                petal.style.setProperty('--rot', rotation + 'deg'); 
+
+                petal.onclick = (e) => {
+                    const rect = petal.getBoundingClientRect();
+                    
+                    const comet = petal.cloneNode(true);
+                    comet.classList.remove('petal');
+                    comet.classList.add('comet-petal');
+                    
+                    const angleRad = (rotation * Math.PI) / 180;
+                    const distance = Math.random() * 500 + 500; 
+                    const targetX = Math.cos(angleRad) * distance;
+                    const targetY = Math.sin(angleRad) * distance - 500; 
+                    
+                    comet.style.left = rect.left + 'px';
+                    comet.style.top = rect.top + 'px';
+                    comet.style.width = rect.width + 'px';
+                    comet.style.height = rect.height + 'px';
+                    
+                    comet.style.setProperty('--target-x', targetX + 'px');
+                    comet.style.setProperty('--target-y', targetY + 'px');
+                    comet.style.setProperty('--init-rot', rotation + 'deg');
+
+                    document.body.appendChild(comet);
+                    
+                    petal.style.opacity = "0";
+                    petal.style.pointerEvents = "none";
+
+                    showMessage(e.clientX, e.clientY, config.messages[i % config.messages.length]);
+
+                    fallenCount++;
+
+                    // --- LÓGICA FINAL ---
+                    if (fallenCount >= config.totalPetals) {
+                        // Esperar un momento para que el último pétalo vuele y luego mostrar todo
+                        setTimeout(() => {
+                            resetBtn.classList.add('visible');
+                            finalDedication.classList.add('visible'); // Mostrar dedicatoria
+                        }, 1500);
+                    }
+
+                    setTimeout(() => comet.remove(), 3000);
+                };
+
+                roseHead.appendChild(petal);
+            }
+        }
+
+        function showMessage(x, y, text) {
+            const b = document.createElement('div');
+            b.className = 'message-bubble';
+            b.innerText = text;
+            b.style.left = (x - 50) + 'px'; 
+            b.style.top = (y - 50) + 'px';
+            document.body.appendChild(b);
+            setTimeout(() => b.remove(), 3000);
+        }
+
+        // INICIALIZACIÓN
+        resetBtn.onclick = createRose;
+        
+        createUniverse();
+        createRose();
+
+    </script>
+</body>
+</html>
